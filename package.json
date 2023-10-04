@@ -1,0 +1,39 @@
+{
+  "name": "De-sab",
+  "version": "1.0.0",
+  "description": "a platform where tailors can distribute work among themselves ",
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^6.7.0",
+    "helmet": "^7.0.0",
+    "html-to-text": "^9.0.5",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.4",
+    "mongoose-unique-validator": "^4.0.0",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.4",
+    "nodemon": "^2.0.22",
+    "promisify": "^0.0.3",
+    "pug": "^3.0.2",
+    "swagger-jsdoc": "^6.0.0",
+    "swagger-ui-express": "^5.0.0",
+    "twilio": "^4.18.0",
+    "validator": "^13.11.0",
+    "xss-clean": "^0.1.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Divine Obinna",
+  "license": "ISC"
+}
