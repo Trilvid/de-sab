@@ -50,7 +50,8 @@ Please your tracking ID is ${trackingID}\nPlease use it to track your order.`
     client.messages
       .create({
         body: msgText,
-        from: twilioNo,
+        // from: twilioNo,
+        from: 'De-sab fasion',
         to: `+234${req.body.client_mobile}`,
       })
       .then((message) => console.log(message));

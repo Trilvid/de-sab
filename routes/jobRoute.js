@@ -62,14 +62,11 @@ const router = express.Router();
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/CreateJobInputs'
+ *                      $ref: '#/components/schemas/TrackJobsInputs'
  *      responses:
  *          200:
  *              description: Success
- *              content:
- *                  application/json:
- *                      schema:          
- *                          $ref: '#/components/schemas/CreateJobResponse'          
+ *              content:      
  *          409:
  *              description: Conflict
  *          400:

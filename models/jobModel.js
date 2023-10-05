@@ -82,6 +82,13 @@ const mongoose = require('mongoose');
  *          type: string
  *          default: +2348033459665
  * 
+ *    TrackJobsInputs:
+ *      type: object
+ *      properties:
+ *        trackId:
+ *          type: string
+ *          default: DS2XDDNKY4FM
+ * 
  * */
 
 const jobSchema = new mongoose.Schema({
