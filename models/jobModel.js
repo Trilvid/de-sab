@@ -85,7 +85,7 @@ const mongoose = require('mongoose');
  *    TrackJobsInputs:
  *      type: object
  *      properties:
- *        trackId:
+ *        trackingId:
  *          type: string
  *          default: DS2XDDNKY4FM
  * 
