@@ -185,17 +185,10 @@ exports.trackJobProgress = tryCatch(async (req, res) => {
 exports.reportGeneration = tryCatch(async (req, res) => {
     const totalJobsInProgress = await Job.find().where({jobStatus: "in progress"})
     const totalJobsOrders = await Job.find()
-    const totalAmt = await Job.aggregate([
-        {
-          $group: {
-            _id: null,
-            amount: { $sum: 'amount' } 
-          }
-        }
-      ])
+    const totalAmt = await Job.find().select('amount')
 
     res.status(200).json({
-        total_amount: totalAmt,
+        total_amount: totalAmt.length,
         total_orders: totalJobsOrders.length,
         jobs_in_progress: totalJobsInProgress.length
     })

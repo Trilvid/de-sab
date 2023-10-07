@@ -92,6 +92,7 @@ exports.verifyUser = tryCatch(async (req, res) => {
 const emailValidate = await User.findOne({email: req.body.email})
     if(emailValidate) {
       res.status(400).json({
+        status: 400,
         message: "This email already exists"
       })
     }
