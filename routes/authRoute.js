@@ -18,7 +18,7 @@ const router = express.Router();
  *                  schema:
  *                      $ref: '#/components/schemas/CreateUserInput'
  *      responses:
- *          200:
+ *          201:
  *              description: Success
  *              content:
  *                  application/json:

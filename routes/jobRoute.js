@@ -21,7 +21,7 @@ const router = express.Router();
  *                  schema:
  *                      $ref: '#/components/schemas/CreateJobInputs'
  *      responses:
- *          200:
+ *          201:
  *              description: Success
  *              content:
  *                  application/json:
@@ -98,6 +98,16 @@ const router = express.Router();
  *      - Jobs
  *      summary: Gets all job request on sewing
  *      description: This logs all sewing jobs in this system
+ *      responses:
+ *          200:
+ *              description: App is up and running
+ *  
+ * /api/v1/jobs/report:
+ *  get:
+ *      tags:
+ *      - Jobs
+ *      summary: Generates report on the system 
+ *      description: This logs all job activity in this system
  *      responses:
  *          200:
  *              description: App is up and running
