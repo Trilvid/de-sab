@@ -88,6 +88,13 @@ exports.verifyUser = tryCatch(async (req, res) => {
     if(req.body.password != req.body.confirmPassword) {
       throw new AppError('Bad Request', "Password does not match", 400)
     }
+
+const emailValidate = await User.findOne({email: req.body.email})
+    if(emailValidate) {
+      res.status(400).json({
+        message: "This email already exists"
+      })
+    }
     
       const user = await User.create({
         fullname: req.body.fullname,
@@ -100,6 +107,7 @@ exports.verifyUser = tryCatch(async (req, res) => {
         photo: "https://res.cloudinary.com/ult-bank/image/upload/v1685139259/t9tjkxnb3nrmtjuizftp.png"
 
       })
+
 
       return success(201, res, user, "Account created" )
       
