@@ -115,7 +115,7 @@ const userSchema = new mongoose.Schema(
     department: {
       type: String,
       required: true,
-      enum: ['laundry', 'logistics', 'sewing']
+      enum: ['laundry', 'logistics', 'sewer']
     },
     photo: {
       type: String,

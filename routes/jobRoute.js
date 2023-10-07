@@ -173,6 +173,7 @@ router.patch('/editjob/:jobId', jobController.updateAJob)
 router.get('/laundry', jobController.jobQueueLaundry)
 router.get('/logistics', jobController.jobQueueLogistics)
 router.get('/sewing', jobController.jobQueueSewing)
+router.get('/report', jobController.reportGeneration)
 
 router.get('/:acceptId/accept', jobController.acceptJob)
 router.get('/:acceptId/cancel', jobController.cancelATask)

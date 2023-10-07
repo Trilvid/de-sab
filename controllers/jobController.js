@@ -44,13 +44,17 @@ exports.createNewJob = tryCatch(async (req, res) => {
     const username =  req.body.client_name.split(' ')[1]
 
     const client = require('twilio')(accountSid, authToken);
-    const msgText = `Hello ${username}, \n\nDe-Sab Fashion is delighted to have you.\n
-Please your tracking ID is ${trackingID}\nPlease use it to track your order.`
+//     const msgText = `Dear ${username}, \n\nDe-Sab Fashion is delighted to have you.\n
+// Please your tracking ID is ${trackingID}\nPlease use it to track your order.`
+
+const msgText = `Thank you for your patronage.\nYour tracking ID is ${trackingID}.\n
+Please, use it to track your orders at www.de-sab.com/trackorder\n
+… Fashion Redefined!`
 
     client.messages
       .create({
         body: msgText,
-        from: twilioNo,
+        from: 'De-sab',
         to: `+234${req.body.client_mobile}`,
       })
       .then((message) => console.log(message));
@@ -163,5 +167,36 @@ exports.trackJobProgress = tryCatch(async (req, res) => {
     return res.status(200).json({
         status: data.jobStatus,
         data
+    })
+})
+
+
+
+// 2. Total job completed by any given sewer, logistic dispatcher, laundry attendant
+
+// 4. Total amount due for all job completed in a given time range by job type. 
+
+// 5. Total amount due for job completed by individual worker
+
+// 6. Client information sheet.
+
+// 7. Any other that you may consider necessary.
+
+exports.reportGeneration = tryCatch(async (req, res) => {
+    const totalJobsInProgress = await Job.find().where({jobStatus: "in progress"})
+    const totalJobsOrders = await Job.find()
+    const totalAmt = await Job.aggregate([
+        {
+          $group: {
+            _id: null,
+            amount: { $sum: 'amount' } 
+          }
+        }
+      ])
+
+    res.status(200).json({
+        total_amount: totalAmt,
+        total_orders: totalJobsOrders.length,
+        jobs_in_progress: totalJobsInProgress.length
     })
 })
