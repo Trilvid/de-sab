@@ -180,6 +180,7 @@ exports.reportGeneration = tryCatch(async (req, res) => {
     const totalJobsInProgress = await Job.find().where({jobStatus: "in progress"})
     const totalJobsOrders = await Job.find()
     const totalAmt = await Job.find().select('amount').where({jobStatus: "completed"})
+    const totalAmtInProgress = await Job.find().select('amount').where({jobStatus: "in progress"})
     const clients = await Job.find().select(['client_name', 'project_type', 'job_title', 'amount', 'installment'])
     
     let totalAmount = 0;
@@ -191,6 +192,7 @@ exports.reportGeneration = tryCatch(async (req, res) => {
 
     res.status(200).json({
         total_amount: totalAmount,
+        total_amount_inProgress: totalAmtInProgress,
         total_orders: totalJobsOrders.length,
         jobs_in_progress: totalJobsInProgress.length,
         clients
