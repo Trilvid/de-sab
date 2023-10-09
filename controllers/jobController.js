@@ -181,18 +181,36 @@ exports.reportGeneration = tryCatch(async (req, res) => {
     const totalJobsOrders = await Job.find()
     const totalAmt = await Job.find().select('amount').where({jobStatus: "completed"})
     const totalAmtInProgress = await Job.find().select('amount').where({jobStatus: "in progress"})
+    const totalAmtPending = await Job.find().select('amount').where({jobStatus: "pending"})
     const clients = await Job.find().select(['client_name', 'project_type', 'job_title', 'amount', 'installment'])
     
     let totalAmount = 0;
+    let totalPending = 0;
+    let totalAmountInPro = 0;
+
     for (const doc of totalAmt) {
       if (doc.amount) {
         totalAmount += doc.amount;
       }
     }
 
+    for (const doc of totalAmtInProgress) {
+        if (doc.amount) {
+            totalAmountInPro += doc.amount;
+        }
+      }
+      
+    for (const doc of totalAmtPending) {
+        if (doc.amount) {
+            totalPending += doc.amount;
+        }
+      }
+      
+
     res.status(200).json({
         total_amount: totalAmount,
-        total_amount_inProgress: totalAmtInProgress,
+        total_amount_inProgress: totalAmountInPro,
+        total_amount_pending: totalPending,
         total_orders: totalJobsOrders.length,
         jobs_in_progress: totalJobsInProgress.length,
         clients
