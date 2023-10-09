@@ -173,23 +173,26 @@ exports.trackJobProgress = tryCatch(async (req, res) => {
 
 
 // 2. Total job completed by any given sewer, logistic dispatcher, laundry attendant
-
-// 4. Total amount due for all job completed in a given time range by job type. 
-
 // 5. Total amount due for job completed by individual worker
-
-// 6. Client information sheet.
-
 // 7. Any other that you may consider necessary.
 
 exports.reportGeneration = tryCatch(async (req, res) => {
     const totalJobsInProgress = await Job.find().where({jobStatus: "in progress"})
     const totalJobsOrders = await Job.find()
-    const totalAmt = await Job.find().select('amount')
+    const totalAmt = await Job.find().select('amount').where({jobStatus: "completed"})
+    const clients = await Job.find().select(['client_name', 'project_type', 'job_title', 'amount', 'installment'])
+    
+    let totalAmount = 0;
+    for (const doc of totalAmt) {
+      if (doc.amount) {
+        totalAmount += doc.amount;
+      }
+    }
 
     res.status(200).json({
-        total_amount: totalAmt.length,
+        total_amount: totalAmount,
         total_orders: totalJobsOrders.length,
-        jobs_in_progress: totalJobsInProgress.length
+        jobs_in_progress: totalJobsInProgress.length,
+        clients
     })
 })
