@@ -44,12 +44,14 @@ exports.createNewJob = tryCatch(async (req, res) => {
     const username =  req.body.client_name.split(' ')[1]
 
     const client = require('twilio')(accountSid, authToken);
-//     const msgText = `Dear ${username}, \n\nDe-Sab Fashion is delighted to have you.\n
-// Please your tracking ID is ${trackingID}\nPlease use it to track your order.`
 
-const msgText = `Thank you for your patronage.\nYour tracking ID is ${trackingID}.\n
-Please, use it to track your orders at www.de-sab.com/trackorder\n
-… Fashion Redefined!`
+const msgText = `Thank you for booking us.\nYour tracking ID is ${trackingID}\n
+Please, use it to track your orders.\nwww.de-sab.com  ... Fashion Redefined!.`
+
+// const msgText = `Thank you for your patronage.\nYour tracking ID is ${trackingID}.\n
+// Please, use it to track your orders at www.de-sab.com/trackorder\n
+// … Fashion Redefined!`
+
 
     client.messages
       .create({

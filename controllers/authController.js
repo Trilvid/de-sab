@@ -108,7 +108,25 @@ const emailValidate = await User.findOne({email: req.body.email})
         photo: "https://res.cloudinary.com/ult-bank/image/upload/v1685139259/t9tjkxnb3nrmtjuizftp.png"
 
       })
+      const username =  req.body.fullname.split(' ')[0]
+      const accountSid = process.env.ACCOUNTSID;
+      const authToken = process.env.AUTH_TOKEN;
 
+      const client = require('twilio')(accountSid, authToken);
+const msgText = `Hello ${username}
+De-Sab Unisex Fashion World is delighted to have you.
+We are here for your quality wears and prompt services.
+www.de-sab.com ... Fashion Redefined!`
+  
+      client.messages
+        .create({
+          body: msgText,
+          from: 'De-sab',
+          to: `+234${req.body.mobile}`,
+        })
+        .then((message) => console.log(message));
+      console.log(`sms was sent to ${req.body.client_mobile} ${msgText}`)
+  
 
       return success(201, res, user, "Account created" )
       
