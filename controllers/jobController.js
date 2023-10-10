@@ -4,9 +4,16 @@ const AppError = require('./../utils/AppError');
 
 const accountSid = process.env.ACCOUNTSID;
 const authToken = process.env.AUTH_TOKEN;
-const twilioNo = process.env.TWILIO_NO;
 
+exports.getAllJobsForEdit = tryCatch(async (req, res) => {
+    const allJobs = await Job.find()
 
+    if(!allJobs) {
+        throw new AppError('Not Found', 'there is no Job on this Queue', 400)
+    }
+
+    res.json({allJobs})
+})
 
 exports.createNewJob = tryCatch(async (req, res) => {
     

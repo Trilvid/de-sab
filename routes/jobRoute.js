@@ -112,6 +112,16 @@ const router = express.Router();
  *          200:
  *              description: App is up and running
  *  
+ * /api/v1/jobs/jobqueue:
+ *  get:
+ *      tags:
+ *      - Jobs
+ *      summary: Gets all jobs on this system 
+ *      description: This logs all job activity in this system
+ *      responses:
+ *          200:
+ *              description: App is up and running
+ *  
  * '/api/v1/jobs/{acceptId}/accept':
  *  get:
  *      tags:
@@ -184,6 +194,7 @@ router.get('/laundry', jobController.jobQueueLaundry)
 router.get('/logistics', jobController.jobQueueLogistics)
 router.get('/sewing', jobController.jobQueueSewing)
 router.get('/report', jobController.reportGeneration)
+router.get('/jobqueue', jobController.getAllJobsForEdit)
 
 router.get('/:acceptId/accept', jobController.acceptJob)
 router.get('/:acceptId/cancel', jobController.cancelATask)
