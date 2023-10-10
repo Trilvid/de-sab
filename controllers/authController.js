@@ -33,7 +33,8 @@ const success = ( statusCode, res, user, message) => {
       token,
       role: user.role,
       message,
-      url
+      url,
+      user
     });
 }
 
@@ -91,7 +92,7 @@ exports.verifyUser = tryCatch(async (req, res) => {
 
 const emailValidate = await User.findOne({email: req.body.email})
     if(emailValidate) {
-      res.status(400).json({
+      res.json({
         status: 400,
         message: "This email already exists"
       })
