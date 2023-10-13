@@ -134,6 +134,11 @@ const jobSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now()
+    },
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true
     }
 },
 {
@@ -142,5 +147,12 @@ const jobSchema = new mongoose.Schema({
   timestamps: true
 }
 )
+jobSchema.pre(/^find/, function(next) {
+    this.populate({
+      path: 'user',
+      select: ['fullname', 'department']
+    })
+    next();
+  })
 const Job = mongoose.model('Job', jobSchema);
 module.exports = Job;

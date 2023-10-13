@@ -6,7 +6,7 @@ const accountSid = process.env.ACCOUNTSID;
 const authToken = process.env.AUTH_TOKEN;
 
 exports.getAllJobsForEdit = tryCatch(async (req, res) => {
-    const allJobs = await Job.find()
+    const allJobs = await Job.find().populate()
 
     if(!allJobs) {
         throw new AppError('Not Found', 'there is no Job on this Queue', 400)
@@ -16,6 +16,7 @@ exports.getAllJobsForEdit = tryCatch(async (req, res) => {
 })
 
 exports.createNewJob = tryCatch(async (req, res) => {
+    if (!req.body.user) req.body.user = req.user.id
     
     const usedCodes = new Set();
     function generateUniqueCode(length) {
@@ -46,7 +47,8 @@ exports.createNewJob = tryCatch(async (req, res) => {
         client_name: req.body.client_name,
         client_mobile: req.body.client_mobile,
         jobStatus: req.body.jobStatus,
-        trackingId: trackingID
+        trackingId: trackingID,
+        user: req.user.id
     })
     const username =  req.body.client_name.split(' ')[1]
 

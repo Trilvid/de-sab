@@ -187,7 +187,7 @@ const router = express.Router();
  * 
  */
 
-router.post('/createjob', jobController.createNewJob)
+router.post('/createjob', authController.protect, jobController.createNewJob)
 router.patch('/editjob/:jobId', jobController.updateAJob)
 
 router.get('/laundry', jobController.jobQueueLaundry)
