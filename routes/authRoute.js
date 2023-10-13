@@ -100,6 +100,25 @@ const router = express.Router();
  *          404:
  *              description: User not Found 
  * 
+ * /api/v1/users/manageusers:
+ *  post:
+ *      tags:
+ *      - User Authentication
+ *      summary: Assigns role to the users
+ *      requestBody: 
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/ManageUser'
+ *      responses:
+ *          200:
+ *              description: Success       
+ *          409:
+ *              description: Conflict
+ *          400:
+ *              description: Bad Request
+ * 
  * /api/v1/users/forgottenpassword:
  *  post:
  *      tags:
@@ -233,6 +252,10 @@ authController.updateMe)
 router.use(authController.restrictTo("user", "admin"))
 // router.get('/allusers', authController.getAllUsers)
 router.get('/:id', authController.protect, authController.getUser)
+router.post('/manageusers', 
+authController.protect, 
+authController.restrictTo("superAdmin"),
+authController.manageUsers)
 
 
 module.exports = router;

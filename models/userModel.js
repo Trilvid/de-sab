@@ -90,6 +90,14 @@ const uniqueValidator = require("mongoose-unique-validator")
  *          type: string
  *        photo:
  *          type: string
+ * 
+ *    ManageUser:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: string
+ *        role:
+ *          type: string
  */
 
 
