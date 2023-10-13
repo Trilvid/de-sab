@@ -55,19 +55,15 @@ exports.createNewJob = tryCatch(async (req, res) => {
 const msgText = `Thank you for booking us.\nYour tracking ID is ${trackingID}\n
 Please, use it to track your orders.\nwww.de-sab.com  ... Fashion Redefined!.`
 
-// const msgText = `Thank you for your patronage.\nYour tracking ID is ${trackingID}.\n
-// Please, use it to track your orders at www.de-sab.com/trackorder\n
-// … Fashion Redefined!`
 
-
-    client.messages
-      .create({
-        body: msgText,
-        from: 'De-sab',
-        to: `+234${req.body.client_mobile}`,
-      })
-      .then((message) => console.log(message));
-    console.log(`sms was sent to ${req.body.client_mobile} ${msgText}`)
+    // client.messages
+    //   .create({
+    //     body: msgText,
+    //     from: 'De-sab',
+    //     to: `+234${req.body.client_mobile}`,
+    //   })
+    //   .then((message) => console.log(message));
+    // console.log(`sms was sent to ${req.body.client_mobile} ${msgText}`)
 
     return res.status(201).json({
         message: "new job created",

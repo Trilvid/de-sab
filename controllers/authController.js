@@ -119,14 +119,14 @@ De-Sab Unisex Fashion World is delighted to have you.
 We are here for your quality wears and prompt services.
 www.de-sab.com ... Fashion Redefined!`
   
-      client.messages
-        .create({
-          body: msgText,
-          from: 'De-sab',
-          to: `+234${req.body.mobile}`,
-        })
-        .then((message) => console.log(message));
-      console.log(`sms was sent to ${req.body.client_mobile} ${msgText}`)
+      // client.messages
+      //   .create({
+      //     body: msgText,
+      //     from: 'De-sab',
+      //     to: `+234${req.body.mobile}`,
+      //   })
+      //   .then((message) => console.log(message));
+      // console.log(`sms was sent to ${req.body.client_mobile} ${msgText}`)
   
 
       return success(201, res, user, "Account created" )
@@ -384,3 +384,5 @@ exports.deleteMe =  tryCatch(async (req, res) => {
       });
   
 });
+
+// exports
