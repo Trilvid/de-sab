@@ -129,7 +129,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: 'admin',
-      enum: ['admin', 'superAdmin']
+      enum: ['employee','admin', 'superAdmin']
     },
     rememberme:{
       type:Boolean,

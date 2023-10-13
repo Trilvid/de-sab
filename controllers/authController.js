@@ -385,4 +385,16 @@ exports.deleteMe =  tryCatch(async (req, res) => {
   
 });
 
-// exports
+exports.manageUsers = tryCatch(async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.body.id, {role: req.body.role})
+  
+  if(!user) {
+    throw new AppError("Not Found", "This User does not exist ", 404)
+  }
+  
+  res.json({
+    status: 200,
+    data: user
+  });
+
+})
