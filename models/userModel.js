@@ -30,7 +30,7 @@ const uniqueValidator = require("mongoose-unique-validator")
  *          default: pass1234
  *        mobile:
  *          type: string
- *          default: 2349034187388
+ *          default: 09034187388
  *        department:
  *          type: string
  *          default: laundry
@@ -52,7 +52,7 @@ const uniqueValidator = require("mongoose-unique-validator")
  *    LoginUser:
  *      type: object
  *      properties:
- *        email:
+ *        mobile:
  *          type: string
  *        password:
  *          type: string
@@ -61,7 +61,7 @@ const uniqueValidator = require("mongoose-unique-validator")
  *    UserForgottenPassword:
  *      type: object
  *      properties:
- *        email:
+ *        mobile:
  *          type: string
  *    UserResetPassword:
  *      type: object
@@ -110,14 +110,14 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, 'this user must have an email'],
-      unique: true,
+      // required: [true, 'this user must have an email'],
       lowercase: true,
       trim: true,
       validate: [validate.isEmail, 'please provide a valid email']
     },
     mobile: {
       type: Number,
+      unique: true,
       required: true
     },
     department: {

@@ -90,11 +90,11 @@ exports.verifyUser = tryCatch(async (req, res) => {
       throw new AppError('Bad Request', "Password does not match", 400)
     }
 
-const emailValidate = await User.findOne({email: req.body.email})
-    if(emailValidate) {
+const mobileValidate = await User.findOne({mobile: req.body.mobile})
+    if(mobileValidate) {
       res.json({
         status: 400,
-        message: "This email already exists"
+        message: "This phone number already exists"
       })
     }
     
@@ -135,12 +135,12 @@ www.de-sab.com ... Fashion Redefined!`
 
   // login module 
   exports.Login = tryCatch(async (req, res) => {
-    const {email, password, rememberme} = req.body;
+    const {mobile, password, rememberme} = req.body;
 
-    const user = await User.findOne({email}).select('+password');
+    const user = await User.findOne({mobile}).select('+password');
 
-    if(!email || !password) {
-      throw new AppError(401, "email or password cannot be empty", 401)
+    if(!mobile || !password) {
+      throw new AppError(401, "phone number or password cannot be empty", 401)
     }
     
    else if (!user || !(await user.correctPassword(password, user.password))) {
@@ -148,7 +148,7 @@ www.de-sab.com ... Fashion Redefined!`
     }
 
     else if(user.verified === false) {
-      throw new AppError(400, "your email is not verified, please go to your eamil and verify", 400)
+      throw new AppError(400, "your phone number is not verified, please go to your eamil and verify", 400)
     }
 
     else {
@@ -227,7 +227,7 @@ next();
 
 exports.forgotPassword = tryCatch(async (req, res, next) => {
 try{
-const user = await User.findOne({ email: req.body.email });
+const user = await User.findOne({ mobile: req.body.mobile });
 
 if (!user) {
   throw new AppError("Not Found", "Sorry this account does not exist", 404)
@@ -244,10 +244,31 @@ const resetURL = `${req.protocol}://${req.get(
   'host'
 )}/api/v1/auth/resetPassword/${resetToken}`;
 
+const username =  user.fullname.split(' ')[0]
+const accountSid = process.env.ACCOUNTSID;
+const authToken = process.env.AUTH_TOKEN;
+
+const client = require('twilio')(accountSid, authToken);
+const msgText = `Dear ${username},
+To reset your password, click here: ${resetURL},
+If you didn't request this, ignore this sms.
+Best regards,
+De-sab Unisex Fashion`;
+
+// client.messages
+//   .create({
+//     body: msgText,
+//     from: 'De-sab',
+//     to: `+234${req.body.mobile}`,
+//   })
+//   .then((message) => console.log(message));
+// console.log(`sms was sent to ${req.body.client_mobile} ${msgText}`)
+
+
   res.status(200).json({
     status: 'success',
-    message: 'Token sent to email',
-    resetURL
+    message: 'Token sent to phone number',
+    resetURL,
   });
 
 } 
