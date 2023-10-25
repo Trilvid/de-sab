@@ -118,7 +118,8 @@ const userSchema = new mongoose.Schema(
     mobile: {
       type: Number,
       unique: true,
-      required: true
+      required: true,
+      maxlength: [11, "this phone no is not valids"]
     },
     department: {
       type: String,
