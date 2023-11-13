@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 /**
  * @openapi
  * components:
@@ -56,7 +55,7 @@ const mongoose = require('mongoose');
  *          type: string
  *        client_mobile:
  *          type: string
- * 
+ *
  *    EditJobsInputs:
  *      type: object
  *      properties:
@@ -81,78 +80,79 @@ const mongoose = require('mongoose');
  *        client_mobile:
  *          type: string
  *          default: +2348033459665
- * 
+ *
  *    TrackJobsInputs:
  *      type: object
  *      properties:
  *        trackingId:
  *          type: string
  *          default: DS2XDDNKY4FM
- * 
+ *
  * */
 
-const jobSchema = new mongoose.Schema({
+const jobSchema = new mongoose.Schema(
+  {
     project_type: {
-        type: String,
-        required: true,
-        enum: ['laundry', 'logistics', 'sewing']
+      type: String,
+      required: true,
+      enum: ['laundry', 'logistics', 'sewing'],
     },
     job_title: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     project_description: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     amount: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     installment: {
-        type: String,
-        required: [true, "this feild cannot be empty"]
+      type: String,
+      required: [true, 'this feild cannot be empty'],
     },
     client_name: {
-        type: String,
-        trim: true,
-        required: true
+      type: String,
+      trim: true,
+      required: true,
     },
     client_mobile: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     jobStatus: {
-        type: String,
-        default: "pending",
-        enum: ['pending', 'in progress', 'cancelled', 'completed']
+      type: String,
+      default: 'pending',
+      enum: ['pending', 'in progress', 'cancelled', 'completed'],
     },
     trackingId: {
-        type: String,
-        required: [true, "this field cannot be empty"]
+      type: String,
+      required: [true, 'this field cannot be empty'],
     },
     createdAt: {
-        type: Date,
-        default: Date.now()
+      type: Date,
+      default: Date.now(),
     },
     user: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-        required: true
-    }
-},
-{
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true },
-  timestamps: true
-}
-)
-jobSchema.pre(/^find/, function(next) {
-    this.populate({
-      path: 'user',
-      select: ['fullname', 'department']
-    })
-    next();
-  })
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    timestamps: true,
+  }
+);
+jobSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+    select: ['fullname', 'department'],
+  });
+  next();
+});
 const Job = mongoose.model('Job', jobSchema);
 module.exports = Job;

@@ -4,17 +4,17 @@ const express = require('express');
 
 const router = express.Router();
 
-// where doc code will be 
+// where doc code will be
 
 /**
  * @openapi
- * 
+ *
  * /api/v1/jobs/createjob:
  *  post:
  *      tags:
  *      - Jobs
  *      summary: Create a job
- *      requestBody: 
+ *      requestBody:
  *          required: true
  *          content:
  *              application/json:
@@ -25,8 +25,8 @@ const router = express.Router();
  *              description: Success
  *              content:
  *                  application/json:
- *                      schema:          
- *                          $ref: '#/components/schemas/CreateJobResponse'          
+ *                      schema:
+ *                          $ref: '#/components/schemas/CreateJobResponse'
  *          409:
  *              description: Conflict
  *          400:
@@ -50,14 +50,14 @@ const router = express.Router();
  *                      schema:
  *                          $ref: '#/components/schema/EditJobsInputs'
  *          404:
- *              description: Job not Found 
- * 
+ *              description: Job not Found
+ *
  * /api/v1/jobs/track:
  *  post:
  *      tags:
  *      - Jobs
  *      summary: Tracks a job
- *      requestBody: 
+ *      requestBody:
  *          required: true
  *          content:
  *              application/json:
@@ -66,7 +66,7 @@ const router = express.Router();
  *      responses:
  *          200:
  *              description: Success
- *              content:      
+ *              content:
  *          409:
  *              description: Conflict
  *          400:
@@ -81,7 +81,7 @@ const router = express.Router();
  *      responses:
  *          200:
  *              description: App is up and running
- * 
+ *
  * /api/v1/jobs/logistics:
  *  get:
  *      tags:
@@ -91,7 +91,7 @@ const router = express.Router();
  *      responses:
  *          200:
  *              description: App is up and running
- * 
+ *
  * /api/v1/jobs/sewing:
  *  get:
  *      tags:
@@ -101,27 +101,27 @@ const router = express.Router();
  *      responses:
  *          200:
  *              description: App is up and running
- *  
+ *
  * /api/v1/jobs/report:
  *  get:
  *      tags:
  *      - Jobs
- *      summary: Generates report on the system 
+ *      summary: Generates report on the system
  *      description: This logs all job activity in this system
  *      responses:
  *          200:
  *              description: App is up and running
- *  
+ *
  * /api/v1/jobs/jobqueue:
  *  get:
  *      tags:
  *      - Jobs
- *      summary: Gets all jobs on this system 
+ *      summary: Gets all jobs on this system
  *      description: This logs all job activity in this system
  *      responses:
  *          200:
  *              description: App is up and running
- *  
+ *
  * '/api/v1/jobs/{acceptId}/accept':
  *  get:
  *      tags:
@@ -140,9 +140,9 @@ const router = express.Router();
  *                      schema:
  *                          $ref: '#/components/schema/CreateJobInputs'
  *          404:
- *              description: Job not Found 
- * 
- * 
+ *              description: Job not Found
+ *
+ *
  * '/api/v1/jobs/{acceptId}/cancel':
  *  get:
  *      tags:
@@ -161,9 +161,9 @@ const router = express.Router();
  *                      schema:
  *                          $ref: '#/components/schema/CreateJobInputs'
  *          404:
- *              description: Job not Found 
- *   
- * 
+ *              description: Job not Found
+ *
+ *
  * '/api/v1/jobs/{acceptId}/complete':
  *  get:
  *      tags:
@@ -182,28 +182,26 @@ const router = express.Router();
  *                      schema:
  *                          $ref: '#/components/schema/CreateJobInputs'
  *          404:
- *              description: Job not Found 
- *  
- * 
+ *              description: Job not Found
+ *
+ *
  */
 
-router.post('/createjob', authController.protect, jobController.createNewJob)
-router.patch('/editjob/:jobId', jobController.updateAJob)
+router.post('/createjob', authController.protect, jobController.createNewJob);
+router.patch('/editjob/:jobId', jobController.updateAJob);
 
-router.get('/laundry', jobController.jobQueueLaundry)
-router.get('/logistics', jobController.jobQueueLogistics)
-router.get('/sewing', jobController.jobQueueSewing)
-router.get('/report', jobController.reportGeneration)
-router.get('/jobqueue', jobController.getAllJobsForEdit)
+router.get('/laundry', jobController.jobQueueLaundry);
+router.get('/logistics', jobController.jobQueueLogistics);
+router.get('/sewing', jobController.jobQueueSewing);
+router.get('/report', jobController.reportGeneration);
+router.get('/jobqueue', jobController.getAllJobsForEdit);
 
-router.get('/:acceptId/accept', jobController.acceptJob)
-router.get('/:acceptId/cancel', jobController.cancelATask)
+router.get('/:acceptId/accept', jobController.acceptJob);
+router.get('/:acceptId/cancel', jobController.cancelATask);
 
-router.post('/track', jobController.trackJobProgress)
+router.post('/track', jobController.trackJobProgress);
 
-router.use(authController.protect, authController.restrictTo("superAdmin"))
-router.get('/:acceptId/complete', jobController.completeATask)
-
-
+router.use(authController.protect, authController.restrictTo('superAdmin'));
+router.get('/:acceptId/complete', jobController.completeATask);
 
 module.exports = router;

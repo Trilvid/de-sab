@@ -1,7 +1,7 @@
 {
-  "name": "De-sab",
+  "name": "de-sab",
   "version": "1.0.0",
-  "description": "a platform where tailors can distribute work among themselves ",
+  "description": "a job management platform",
   "main": "server.js",
   "dependencies": {
     "bcrypt": "^5.1.1",

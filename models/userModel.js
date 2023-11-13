@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const validate = require('validator');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const uniqueValidator = require("mongoose-unique-validator")
-
+const uniqueValidator = require('mongoose-unique-validator');
 
 /**
  * @openapi
@@ -70,7 +69,7 @@ const uniqueValidator = require("mongoose-unique-validator")
  *          type: string
  *        passwordConfirm:
  *          type: string
- * 
+ *
  *    updatePassword:
  *      type: object
  *      properties:
@@ -80,7 +79,7 @@ const uniqueValidator = require("mongoose-unique-validator")
  *          type: string
  *        passwordConfirm:
  *          type: string
- * 
+ *
  *    userProfile:
  *      type: object
  *      properties:
@@ -90,7 +89,7 @@ const uniqueValidator = require("mongoose-unique-validator")
  *          type: string
  *        photo:
  *          type: string
- * 
+ *
  *    ManageUser:
  *      type: object
  *      properties:
@@ -100,130 +99,131 @@ const uniqueValidator = require("mongoose-unique-validator")
  *          type: string
  */
 
-
 const userSchema = new mongoose.Schema(
   {
     fullname: {
-        type: String,
-        required: [true, 'this User must have a fullname'],
-        trim: true
+      type: String,
+      required: [true, 'this User must have a fullname'],
+      trim: true,
     },
     email: {
       type: String,
       // required: [true, 'this user must have an email'],
       lowercase: true,
       trim: true,
-      validate: [validate.isEmail, 'please provide a valid email']
+      validate: [validate.isEmail, 'please provide a valid email'],
     },
     mobile: {
       type: Number,
       unique: true,
       required: true,
-      maxlength: [11, "this phone no is not valids"]
+      maxlength: [11, 'this phone no is not valids'],
     },
     department: {
       type: String,
       required: true,
-      enum: ['laundry', 'logistics', 'sewing']
+      enum: ['laundry', 'logistics', 'sewing'],
     },
     photo: {
       type: String,
     },
     password: {
-        type: String,
-        required: [true, 'please provide a password'],
-        minLength: [8, 'minimum password lenght is 8 '],
-        select: false
+      type: String,
+      required: [true, 'please provide a password'],
+      minLength: [8, 'minimum password lenght is 8 '],
+      select: false,
     },
     role: {
       type: String,
       default: 'employee',
-      enum: ['employee','admin', 'superAdmin']
+      enum: ['employee', 'admin', 'superAdmin'],
     },
-    rememberme:{
-      type:Boolean,
-      default: false
+    rememberme: {
+      type: Boolean,
+      default: false,
     },
-    verified:{type:Boolean, default:true},
+    verified: { type: Boolean, default: true },
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
     active: {
       type: Boolean,
       default: true,
-      select: false
+      select: false,
     },
     passwordConfirm: {
       type: String,
       validate: {
-        validator: function(el) {
+        validator: function (el) {
           return el === this.password;
         },
-        message: 'please password does not match'
-      }
-    }
+        message: 'please password does not match',
+      },
+    },
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-    timestamps: true
+    timestamps: true,
   }
 );
 
-
-userSchema.methods.correctPassword = async function(
+userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.pre('save', async function(next) {
-    if (!this.isModified('password')) return next()
-    this.password = await bcrypt.hash(this.password, 12);
-    this.passwordConfirm = undefined;
-    next();
-  });
-
-userSchema.pre('save', function(next) {
-  if (!this.isModified('password') || this.isNew) return next();
-    this.passswordChangedAt = Date().now - 1000;
-    next();
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  this.passwordConfirm = undefined;
+  next();
 });
 
-userSchema.pre(/^find/, function(next) {
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+  this.passswordChangedAt = Date().now - 1000;
+  next();
+});
+
+userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
   next();
 });
 
-  userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
-    if (this.passwordChangedAt) {
-      const changedTimestamp = parseInt(
-        this.passwordChangedAt.getTime() / 1000,
-        10
-      );
-  
-      return changedTimestamp < JWTTimestamp; 
-    }
-  
-    return false;
-  };
-  
-  userSchema.methods.createPasswordResetToken = function() {
-    const resetToken = crypto.randomBytes(32).toString('hex');
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
 
-    this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+    return changedTimestamp < JWTTimestamp;
+  }
 
-    console.log({resetToken}, this.passwordResetToken);
+  return false;
+};
 
-    this.passwordResetExpires = Date.now() + 15 * 60 * 1000;
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString('hex');
 
-    return resetToken;
-  };
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
 
-  userSchema.plugin(uniqueValidator, {
-    message: " This {PATH} already exists"
-  });
+  console.log({ resetToken }, this.passwordResetToken);
+
+  this.passwordResetExpires = Date.now() + 15 * 60 * 1000;
+
+  return resetToken;
+};
+
+userSchema.plugin(uniqueValidator, {
+  message: ' This {PATH} already exists',
+});
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

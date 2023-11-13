@@ -5,13 +5,13 @@ const router = express.Router();
 
 /**
  * @openapi
- * 
+ *
  * /api/v1/auth/signup:
  *  post:
  *      tags:
  *      - User Authentication
  *      summary: Register a user
- *      requestBody: 
+ *      requestBody:
  *          required: true
  *          content:
  *              application/json:
@@ -22,8 +22,8 @@ const router = express.Router();
  *              description: Success
  *              content:
  *                  application/json:
- *                      schema:          
- *                          $ref: '#/components/schemas/CreateUserResponse'          
+ *                      schema:
+ *                          $ref: '#/components/schemas/CreateUserResponse'
  *          409:
  *              description: Conflict
  *          400:
@@ -34,7 +34,7 @@ const router = express.Router();
  *      tags:
  *      - User Authentication
  *      summary: Login a user
- *      requestBody: 
+ *      requestBody:
  *          required: true
  *          content:
  *              application/json:
@@ -42,12 +42,12 @@ const router = express.Router();
  *                      $ref: '#/components/schemas/LoginUser'
  *      responses:
  *          200:
- *              description: Success          
+ *              description: Success
  *          409:
  *              description: Conflict
  *          400:
  *              description: Bad Request
- * 
+ *
  * /api/v1/auth/logout:
  *  get:
  *      tags:
@@ -57,7 +57,7 @@ const router = express.Router();
  *      responses:
  *          200:
  *              description: App is up and running
- * 
+ *
  * /api/v1/users/allusers:
  *  get:
  *      tags:
@@ -67,7 +67,7 @@ const router = express.Router();
  *      responses:
  *          200:
  *              description: App is up and running
- * 
+ *
  * '/api/v1/users/{id}':
  *  get:
  *      tags:
@@ -86,8 +86,8 @@ const router = express.Router();
  *                      schema:
  *                          $ref: '#/components/schema/CreateUserInput'
  *          404:
- *              description: User not Found 
- * 
+ *              description: User not Found
+ *
  * '/api/v1/users/me':
  *  get:
  *      tags:
@@ -98,14 +98,14 @@ const router = express.Router();
  *          200:
  *              description: Success
  *          404:
- *              description: User not Found 
- * 
+ *              description: User not Found
+ *
  * /api/v1/users/manageusers:
  *  post:
  *      tags:
  *      - User Authentication
  *      summary: Assigns role to the users
- *      requestBody: 
+ *      requestBody:
  *          required: true
  *          content:
  *              application/json:
@@ -113,18 +113,18 @@ const router = express.Router();
  *                      $ref: '#/components/schemas/ManageUser'
  *      responses:
  *          200:
- *              description: Success       
+ *              description: Success
  *          409:
  *              description: Conflict
  *          400:
  *              description: Bad Request
- * 
+ *
  * /api/v1/users/forgottenpassword:
  *  post:
  *      tags:
  *      - User Authentication
  *      summary: Forgotten user password
- *      requestBody: 
+ *      requestBody:
  *          required: true
  *          content:
  *              application/json:
@@ -132,12 +132,12 @@ const router = express.Router();
  *                      $ref: '#/components/schemas/UserForgottenPassword'
  *      responses:
  *          200:
- *              description: Success       
+ *              description: Success
  *          409:
  *              description: Conflict
  *          400:
  *              description: Bad Request
- * 
+ *
  * '/api/v1/users/resetpassword/{token}':
  *  patch:
  *      tags:
@@ -157,7 +157,7 @@ const router = express.Router();
  *                          $ref: '#/components/schema/UserResetPassword'
  *          404:
  *              description: User not Found
- * 
+ *
  * '/api/v1/auth/{id}/verify/{token}':
  *  get:
  *      tags:
@@ -180,7 +180,7 @@ const router = express.Router();
  *      tags:
  *      - User Authentication
  *      summary: Change user password
- *      requestBody: 
+ *      requestBody:
  *          required: true
  *          content:
  *              application/json:
@@ -188,7 +188,7 @@ const router = express.Router();
  *                      $ref: '#/components/schemas/updatePassword'
  *      responses:
  *          200:
- *              description: Success       
+ *              description: Success
  *          409:
  *              description: Conflict
  *          400:
@@ -200,7 +200,7 @@ const router = express.Router();
  *      - User Authentication
  *      summary: Change user profile
  *      description: the photo field should contain the url to the picture
- *      requestBody: 
+ *      requestBody:
  *          required: true
  *          content:
  *              application/json:
@@ -208,12 +208,12 @@ const router = express.Router();
  *                      $ref: '#/components/schemas/userProfile'
  *      responses:
  *          200:
- *              description: Success       
+ *              description: Success
  *          409:
  *              description: Conflict
  *          400:
  *              description: Bad Request
- *  
+ *
  * /api/v1/users/deleteAccount:
  *  delete:
  *      tags:
@@ -222,40 +222,38 @@ const router = express.Router();
  *      description: delete can only work for a logged in user
  *      responses:
  *          200:
- *              description: Success       
+ *              description: Success
  *          409:
  *              description: Conflict
  *          400:
  *              description: Bad Request
- *  
+ *
  */
 
-
 // anybody can access this routes
-router.get('/:id/verify/:token', authController.verifyUser)
-router.post('/signup', authController.SignUp)
-router.post('/signin', authController.Login)
-router.post('/forgottenpassword', authController.forgotPassword)
-router.patch('/resetpassword/:token', authController.resetPassword)
+router.get('/:id/verify/:token', authController.verifyUser);
+router.post('/signup', authController.SignUp);
+router.post('/signin', authController.Login);
+router.post('/forgottenpassword', authController.forgotPassword);
+router.patch('/resetpassword/:token', authController.resetPassword);
 
-router.get('/allusers', authController.getAllUsers)
-router.get('/logout', authController.logout)
+router.get('/allusers', authController.getAllUsers);
+router.get('/logout', authController.logout);
 
 // only logged in users have access to this routes
-router.use(authController.protect)
-router.patch('/updatepassword',
-authController.updatePassword);
-router.patch('/myprofile',
-authController.updateMe)
+router.use(authController.protect);
+router.patch('/updatepassword', authController.updatePassword);
+router.patch('/myprofile', authController.updateMe);
 
 // only admins have access to this route
-router.use(authController.restrictTo("user", "admin"))
+router.use(authController.restrictTo('user', 'admin'));
 // router.get('/allusers', authController.getAllUsers)
-router.get('/:id', authController.protect, authController.getUser)
-router.post('/manageusers', 
-authController.protect, 
-authController.restrictTo("superAdmin"),
-authController.manageUsers)
-
+router.get('/:id', authController.protect, authController.getUser);
+router.post(
+  '/manageusers',
+  authController.protect,
+  authController.restrictTo('superAdmin'),
+  authController.manageUsers
+);
 
 module.exports = router;

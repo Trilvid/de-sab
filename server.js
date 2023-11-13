@@ -10,10 +10,9 @@ mongoose.set('strictQuery', false);
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
   .then(() => console.log('DB connection successful!'));
-  
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
