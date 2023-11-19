@@ -48,7 +48,7 @@ exports.createNewJob = tryCatch(async (req, res) => {
     client_mobile: req.body.client_mobile,
     jobStatus: req.body.jobStatus,
     trackingId: trackingID,
-    user: req.user.id,
+    employeeId: req.user.id,
   });
   const username = req.body.client_name.split(' ')[1];
 

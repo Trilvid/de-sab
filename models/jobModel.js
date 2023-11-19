@@ -135,7 +135,7 @@ const jobSchema = new mongoose.Schema(
       type: Date,
       default: Date.now(),
     },
-    user: {
+    employeeId: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       required: true,
