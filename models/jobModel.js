@@ -51,7 +51,7 @@ const mongoose = require('mongoose');
  *          type: string
  *        installment:
  *          type: string
- *        client_namr:
+ *        client_name:
  *          type: string
  *        client_mobile:
  *          type: string
@@ -135,7 +135,7 @@ const jobSchema = new mongoose.Schema(
       type: Date,
       default: Date.now(),
     },
-    employeeId: {
+    user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       required: true,

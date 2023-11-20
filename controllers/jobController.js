@@ -72,33 +72,6 @@ Please, use it to track your orders.\nwww.de-sab.com  ... Fashion Redefined!.`;
   });
 });
 
-exports.jobQueueLaundry = tryCatch(async (req, res) => {
-  const data = await Job.find().select().where({ project_type: 'laundry' });
-
-  res.status(200).json({
-    total: data.length,
-    data,
-  });
-});
-
-exports.jobQueueLogistics = tryCatch(async (req, res) => {
-  const data = await Job.find().select().where({ project_type: 'logistics' });
-
-  res.status(200).json({
-    total: data.length,
-    data,
-  });
-});
-
-exports.jobQueueSewing = tryCatch(async (req, res) => {
-  const data = await Job.find().select().where({ project_type: 'sewing' });
-
-  res.status(200).json({
-    total: data.length,
-    data,
-  });
-});
-
 exports.updateAJob = tryCatch(async (req, res) => {
   const data = await Job.findByIdAndUpdate(
     req.params.jobId,
@@ -125,6 +98,33 @@ exports.updateAJob = tryCatch(async (req, res) => {
   }
 
   res.status(201).json({
+    data,
+  });
+});
+
+exports.jobQueueLaundry = tryCatch(async (req, res) => {
+  const data = await Job.find().select().where({ project_type: 'laundry' });
+
+  res.status(200).json({
+    total: data.length,
+    data,
+  });
+});
+
+exports.jobQueueLogistics = tryCatch(async (req, res) => {
+  const data = await Job.find().select().where({ project_type: 'logistics' });
+
+  res.status(200).json({
+    total: data.length,
+    data,
+  });
+});
+
+exports.jobQueueSewing = tryCatch(async (req, res) => {
+  const data = await Job.find().select().where({ project_type: 'sewing' });
+
+  res.status(200).json({
+    total: data.length,
     data,
   });
 });
